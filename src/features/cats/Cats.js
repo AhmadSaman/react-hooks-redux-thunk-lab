@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCats } from "./catsSlice";
+import CatList from "./CatList";
 
 function Cats() {
-  return (
-    <div>
-      <h1>CatBook</h1>
-      {/* add CatList component here */}
-    </div>
-  );
+	const catPics = useSelector((state) => state.entities);
+	const loadingStatus = useSelector((state) => state.status);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchCats());
+	}, []);
+	console.log(loadingStatus);
+
+	console.log(catPics);
+	return (
+		<div className="App">
+			<h1>CatBook</h1>
+			{loadingStatus !== "idle" ? <p>loading...</p> : ""}
+			{/* missing component */}
+			<CatList catPics={catPics} />
+		</div>
+	);
 }
 
 export default Cats;

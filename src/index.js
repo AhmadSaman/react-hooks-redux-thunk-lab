@@ -2,5 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import catsReducer from "./features/cats/catsSlice";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
+const store = createStore(catsReducer, composedEnhancer);
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById("root")
+);
